@@ -1,0 +1,227 @@
+/* ============================================================
+   Bookish theme — single source of truth for ALL design values.
+   Component CSS may only reference var(--*) tokens defined here.
+   ============================================================ */
+
+/* ---- Fonts (self-hosted, offline) ---- */
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Light tokens (default) ---- */
+:root {
+  color-scheme: light;
+
+  /* Backgrounds */
+  --bg-page: #faf9f6;
+  --bg-butter: #ffffe3;
+  --bg-card: #ffffff;
+  --bg-sand: #e8e0c9;
+
+  /* Text */
+  --ink: #1f1b16;
+  --ink-soft: #625b50;
+  --heading: #3a4e3f;
+
+  /* Brand darks */
+  --forest: #405645;
+  --plum: #4b2c2f;
+  --on-forest: #f3efe6;
+
+  /* Accents */
+  --accent: #ff8748;          /* fills only: buttons, badges */
+  --accent-hover: #e87032;
+  --accent-text: #a34500;     /* orange for TEXT (prices) — AA on light bgs */
+  --accent-contrast: #241207; /* label color on --accent fills */
+  --terracotta: #b05934;
+
+  /* Functional */
+  --error: #b3261e;
+  --success: #2e6b3e;
+  --border: #e5e0d5;
+  --shadow: 0 2px 12px rgba(31, 27, 22, 0.07);
+  --shadow-lift: 0 6px 24px rgba(31, 27, 22, 0.12);
+  --overlay: rgba(31, 27, 22, 0.45);
+  --skeleton-base: #eeeae0;
+  --skeleton-sheen: #f7f4ec;
+
+  /* Radii */
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --radius-input: 10px;
+  --radius-img: 8px;
+
+  /* Type */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --text-hero: clamp(2.25rem, 1.2rem + 3.5vw, 3.5rem);
+  --text-h2: clamp(1.5rem, 1.1rem + 1.4vw, 2rem);
+  --text-h3: 1.125rem;
+  --text-body: 1rem;
+  --text-meta: 0.8125rem;
+  --text-chip: 0.75rem;
+  --tracking-display: -0.02em;
+
+  /* Spacing (8px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --section-y: clamp(3rem, 2rem + 4vw, 5rem);
+  --container-max: 1200px;
+  --container-pad: clamp(1rem, 0.7rem + 1.5vw, 1.5rem);
+
+  /* Motion */
+  --ease-fast: 160ms ease;
+  --ease-drawer: 250ms ease-out;
+
+  /* Layers */
+  --z-header: 40;
+  --z-drawer: 60;
+  --z-sheet: 60;
+}
+
+/* ---- Dark tokens ---- */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-page: #17130d;
+  --bg-butter: #2b2414;
+  --bg-card: #221d14;
+  --bg-sand: #352d1c;
+
+  --ink: #ece5d8;
+  --ink-soft: #b0a692;
+  --heading: #a8c7ae;
+
+  --forest: #2c3b30;
+  --plum: #d9b3ab;
+  --on-forest: #e9e5d9;
+
+  --accent: #ff9a5f;
+  --accent-hover: #ffa974;
+  --accent-text: #ffa26a;
+  --accent-contrast: #241207;
+  --terracotta: #e59a80;
+
+  --error: #ff9c8d;
+  --success: #95cf9f;
+  --border: #3b3323;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lift: 0 6px 24px rgba(0, 0, 0, 0.5);
+  --overlay: rgba(0, 0, 0, 0.6);
+  --skeleton-base: #2a2417;
+  --skeleton-sheen: #352d1c;
+}
+
+/* ---- Base ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color var(--ease-fast), color var(--ease-fast);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  color: var(--heading);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---- Accessibility ---- */
+:focus-visible {
+  outline: 2px solid var(--heading);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Shared keyframes ---- */
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes badge-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
