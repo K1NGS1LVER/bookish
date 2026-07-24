@@ -1,7 +1,13 @@
 import type { Book } from "shared";
+import { AnimatePresence, motion } from "motion/react";
+import { cardEnterTransition, gridItemVariants, layoutTransition } from "../../motion";
+import { usePrefersReducedMotion } from "../../hooks";
 import { SkeletonCard } from "../ui/Skeleton";
 import { BookCard } from "./BookCard";
 import styles from "./BookGrid.module.css";
+
+// mirrors --stagger-step (40ms) in theme.css
+const STAGGER_STEP_SECONDS = 0.04;
 
 export function BookGrid({
   books,
@@ -15,6 +21,8 @@ export function BookGrid({
    *  differently-sized skeleton, which avoids a double layout jump. */
   isFetching?: boolean;
 }) {
+  const reducedMotion = usePrefersReducedMotion();
+
   if (loading) {
     return (
       <div className={styles.grid} aria-busy="true">
@@ -42,9 +50,29 @@ export function BookGrid({
       data-fetching={isFetching || undefined}
       aria-busy={isFetching || undefined}
     >
-      {books.map((book) => (
-        <BookCard key={book.id} book={book} />
-      ))}
+      <AnimatePresence mode="popLayout">
+        {books.map((book, index) => (
+          <motion.div
+            key={book.id}
+            layout
+            variants={gridItemVariants}
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            transition={
+              reducedMotion
+                ? { duration: 0 }
+                : {
+                    ...cardEnterTransition(),
+                    delay: index * STAGGER_STEP_SECONDS,
+                    layout: layoutTransition(),
+                  }
+            }
+          >
+            <BookCard book={book} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 }
