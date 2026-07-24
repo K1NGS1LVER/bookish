@@ -1,0 +1,61 @@
+.wrap {
+  position: relative;
+}
+
+.viewport {
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.slide {
+  flex: 0 0 220px;
+  min-width: 0;
+}
+
+.arrowPrev,
+.arrowNext {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: background-color var(--ease-fast), opacity var(--ease-fast);
+}
+
+.arrowPrev:hover:not(:disabled),
+.arrowNext:hover:not(:disabled) {
+  background: var(--bg-sand);
+}
+
+.arrowPrev:disabled,
+.arrowNext:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.arrowPrev {
+  left: -1.25rem;
+}
+
+.arrowNext {
+  right: -1.25rem;
+}
+
+@media (max-width: 639px) {
+  .arrowPrev,
+  .arrowNext {
+    display: none;
+  }
+}

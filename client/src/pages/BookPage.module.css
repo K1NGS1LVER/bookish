@@ -168,17 +168,6 @@
   margin-bottom: var(--space-4);
 }
 
-.relatedRow {
-  display: flex;
-  gap: var(--space-4);
-  overflow-x: auto;
-  padding-bottom: var(--space-3);
-}
-
-.relatedItem {
-  flex: 0 0 220px;
-}
-
 /* Mobile sticky buy bar */
 .stickyBar {
   position: fixed;

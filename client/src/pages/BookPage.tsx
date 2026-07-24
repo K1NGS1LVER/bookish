@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { formatPrice, type Book } from "shared";
 import { coverUrl, fetchBook, fetchRelated } from "../api";
-import { BookCard } from "../components/catalog/BookCard";
+import { RelatedCarousel } from "../components/catalog/RelatedCarousel";
 import { Button } from "../components/ui/Button";
 import { Chip } from "../components/ui/Chip";
 import { QuantityStepper } from "../components/ui/QuantityStepper";
@@ -150,13 +150,7 @@ function BookDetails({ book, related }: { book: Book; related: Book[] }) {
       {related.length > 0 && (
         <section className={styles.related} aria-label="More like this">
           <h2 className={styles.relatedTitle}>More like this</h2>
-          <div className={styles.relatedRow}>
-            {related.map((r) => (
-              <div key={r.id} className={styles.relatedItem}>
-                <BookCard book={r} />
-              </div>
-            ))}
-          </div>
+          <RelatedCarousel books={related} />
         </section>
       )}
 
