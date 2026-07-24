@@ -1,0 +1,13 @@
+{
+  "name": "bookish",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "check:contrast": "node scripts/check-contrast.mjs"
+  }
+}
