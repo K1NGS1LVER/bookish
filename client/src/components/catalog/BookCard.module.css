@@ -1,0 +1,112 @@
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  transition: box-shadow var(--ease-fast);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lift);
+}
+
+.coverLink {
+  position: relative;
+  display: block;
+  border-radius: var(--radius-img);
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+}
+
+.genreChip {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 1;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--ease-fast);
+}
+
+.coverLink:hover .cover {
+  transform: scale(1.03);
+}
+
+.card[data-out] .cover {
+  filter: grayscale(0.9);
+  opacity: 0.75;
+}
+
+.title {
+  font-size: var(--text-h3);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.title a {
+  text-decoration: none;
+  color: var(--heading);
+}
+
+.title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.author {
+  color: var(--ink-soft);
+  font-size: var(--text-meta);
+}
+
+.priceRow {
+  margin-top: auto;
+  padding-top: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.price {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-h3);
+  color: var(--accent-text);
+}
+
+.add {
+  white-space: nowrap;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: background-color var(--ease-fast);
+}
+
+.add:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.add:disabled {
+  background: var(--bg-sand);
+  color: var(--ink-soft);
+  cursor: not-allowed;
+}
+
+.add[data-added] {
+  background: var(--success);
+  color: var(--bg-card);
+}

@@ -1,0 +1,26 @@
+.wrap {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  font-size: var(--text-meta);
+}
+
+.stars {
+  letter-spacing: 0.08em;
+}
+
+.full {
+  color: var(--terracotta);
+}
+
+.empty {
+  color: var(--border);
+}
+
+.value {
+  font-weight: 600;
+}
+
+.count {
+  color: var(--ink-soft);
+}

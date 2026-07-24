@@ -1,0 +1,21 @@
+.wrap {
+  min-height: 50vh;
+  display: grid;
+  place-content: center;
+  gap: var(--space-3);
+  text-align: center;
+  padding: var(--space-7) var(--container-pad);
+}
+
+.title {
+  font-size: var(--text-h2);
+}
+
+.hint {
+  color: var(--ink-soft);
+}
+
+.link {
+  color: var(--accent-text);
+  font-weight: 600;
+}

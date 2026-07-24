@@ -1,0 +1,27 @@
+.fallback {
+  min-height: 60vh;
+  display: grid;
+  place-content: center;
+  gap: var(--space-4);
+  text-align: center;
+  padding: var(--space-7) var(--container-pad);
+}
+
+.title {
+  font-size: var(--text-h2);
+}
+
+.message {
+  color: var(--ink);
+}
+
+.detail {
+  color: var(--ink-soft);
+  font-size: var(--text-meta);
+  font-family: monospace;
+}
+
+.home {
+  color: var(--accent-text);
+  font-weight: 600;
+}

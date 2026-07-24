@@ -1,0 +1,33 @@
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  padding: var(--space-4);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--skeleton-base) 40%,
+    var(--skeleton-sheen) 50%,
+    var(--skeleton-base) 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: var(--radius-img);
+}
+
+.cover {
+  aspect-ratio: 2 / 3;
+}
+
+.line {
+  height: 1rem;
+}
+
+.lineShort {
+  height: 1rem;
+  width: 60%;
+}

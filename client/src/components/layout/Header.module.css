@@ -1,0 +1,133 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: var(--bg-page);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow var(--ease-fast);
+}
+
+.header[data-scrolled] {
+  box-shadow: var(--shadow);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-3) var(--container-pad);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--heading);
+  text-decoration: none;
+  letter-spacing: var(--tracking-display);
+}
+
+.period {
+  color: var(--accent-text);
+}
+
+.search {
+  position: relative;
+  width: 100%;
+}
+
+.search input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  padding: var(--space-2) var(--space-4) var(--space-2) 2.5rem;
+  transition: border-color var(--ease-fast);
+}
+
+.search input:focus {
+  outline: none;
+  border-color: var(--heading);
+}
+
+.search input::placeholder {
+  color: var(--ink-soft);
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-soft);
+  pointer-events: none;
+}
+
+.searchDesktop {
+  flex: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  display: none;
+}
+
+.searchMobile {
+  padding: 0 var(--container-pad) var(--space-3);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+.iconBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: background-color var(--ease-fast), border-color var(--ease-fast);
+}
+
+.iconBtn:hover {
+  background: var(--bg-sand);
+}
+
+.badge {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.3rem;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: var(--text-chip);
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  animation: badge-pulse 350ms ease;
+}
+
+@media (min-width: 768px) {
+  .searchDesktop {
+    display: block;
+  }
+
+  .actions .iconBtn[aria-label="Toggle search"] {
+    display: none;
+  }
+
+  .searchMobile {
+    display: none;
+  }
+}

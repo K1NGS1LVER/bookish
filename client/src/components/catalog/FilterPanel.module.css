@@ -1,0 +1,111 @@
+.panel {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.group {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.legend {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--heading);
+  padding: 0;
+  margin-bottom: var(--space-2);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-size: var(--text-body);
+}
+
+.check input {
+  accent-color: var(--accent-text);
+  width: 1rem;
+  height: 1rem;
+}
+
+.priceRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.priceField {
+  display: grid;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.priceLabel {
+  font-size: var(--text-chip);
+  color: var(--ink-soft);
+}
+
+.priceField input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+  background: var(--bg-card);
+  padding: var(--space-2) var(--space-3);
+}
+
+.priceField input:focus {
+  outline: none;
+  border-color: var(--heading);
+}
+
+.priceDash {
+  color: var(--ink-soft);
+  padding-bottom: var(--space-2);
+}
+
+.ratingRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.ratingOption {
+  cursor: pointer;
+}
+
+.ratingOption input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ratingOption span {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-meta);
+  color: var(--terracotta);
+  font-weight: 600;
+  transition: background-color var(--ease-fast), border-color var(--ease-fast);
+}
+
+.ratingOption input:checked + span {
+  background: var(--bg-sand);
+  border-color: var(--terracotta);
+}
+
+.ratingOption input:focus-visible + span {
+  outline: 2px solid var(--heading);
+  outline-offset: 2px;
+}
+
+.stockToggle {
+  font-weight: 500;
+}

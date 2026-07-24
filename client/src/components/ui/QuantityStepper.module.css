@@ -1,0 +1,41 @@
+.stepper {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--bg-card);
+}
+
+.btn {
+  border: none;
+  background: transparent;
+  width: 2.25rem;
+  cursor: pointer;
+  font-size: var(--text-h3);
+  color: var(--ink);
+  transition: background-color var(--ease-fast);
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--bg-sand);
+}
+
+.btn:disabled {
+  color: var(--ink-soft);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input {
+  width: 2.5rem;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-weight: 600;
+}
+
+.input:focus {
+  outline: none;
+  background: var(--bg-sand);
+}

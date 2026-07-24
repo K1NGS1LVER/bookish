@@ -1,0 +1,246 @@
+/* ---- Hero ---- */
+.hero {
+  background: var(--bg-butter);
+  border-bottom: 1px solid var(--border);
+}
+
+.heroInner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--section-y) var(--container-pad);
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.heroCopy {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+}
+
+.heroTitle {
+  font-size: var(--text-hero);
+  line-height: 1.08;
+  max-width: 14ch;
+}
+
+.heroText {
+  color: var(--ink);
+  max-width: 44ch;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.heroCovers {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding: var(--space-4) var(--space-2);
+}
+
+.heroCovers img {
+  width: 110px;
+  height: 165px;
+  object-fit: cover;
+  border-radius: var(--radius-img);
+  box-shadow: var(--shadow-lift);
+  flex-shrink: 0;
+}
+
+/* ---- Catalog layout ---- */
+.catalog {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--section-y) var(--container-pad);
+  display: grid;
+  gap: var(--space-6);
+  scroll-margin-top: 5rem;
+}
+
+.sidebar {
+  display: none;
+}
+
+.sidebarTitle {
+  font-size: var(--text-h2);
+  margin-bottom: var(--space-4);
+}
+
+.results {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.resultsTitle {
+  font-size: var(--text-h2);
+}
+
+.count {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.toolbarActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.filtersBtn {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  padding: var(--space-2) var(--space-4);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filtersBtn:hover {
+  background: var(--bg-sand);
+}
+
+.error {
+  text-align: center;
+  padding: var(--space-7) var(--space-4);
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  color: var(--ink-soft);
+}
+
+/* ---- Mobile filter bottom sheet ---- */
+.sheetRoot {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-sheet);
+}
+
+.sheetOverlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay);
+  animation: sheet-fade var(--ease-drawer);
+}
+
+.sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--bg-page);
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  padding: var(--space-4) var(--space-5) var(--space-6);
+  display: grid;
+  gap: var(--space-5);
+  animation: sheet-up var(--ease-drawer);
+}
+
+@keyframes sheet-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+.sheetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sheetHead h2 {
+  font-size: var(--text-h2);
+}
+
+.sheetClose {
+  border: none;
+  background: transparent;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+}
+
+/* ---- Progressive enhancement ---- */
+@media (min-width: 768px) {
+  .heroInner {
+    grid-template-columns: 55% 1fr;
+  }
+
+  .heroCovers {
+    overflow: visible;
+    justify-content: center;
+    padding: var(--space-5) 0;
+  }
+
+  .heroCovers img {
+    width: 140px;
+    height: 210px;
+  }
+
+  .heroCovers img:not(:first-child) {
+    margin-left: -2.5rem;
+  }
+
+  .heroCovers img:nth-child(1) {
+    transform: rotate(-6deg);
+  }
+
+  .heroCovers img:nth-child(2) {
+    transform: rotate(0deg) translateY(-0.75rem);
+  }
+
+  .heroCovers img:nth-child(3) {
+    transform: rotate(5deg);
+  }
+
+  .heroCovers img:nth-child(4) {
+    transform: rotate(9deg) translateY(0.5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .catalog {
+    grid-template-columns: 240px 1fr;
+  }
+
+  .sidebar {
+    display: block;
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+  }
+
+  .filtersBtn {
+    display: none;
+  }
+
+  .sheetRoot {
+    display: none;
+  }
+}
