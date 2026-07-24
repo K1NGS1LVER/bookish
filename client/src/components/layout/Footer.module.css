@@ -76,6 +76,23 @@
   outline-offset: 2px;
 }
 
+.newsletterRow input[data-error] {
+  border-color: var(--error);
+}
+
+.newsletterStatus {
+  margin-top: var(--space-2);
+  font-size: var(--text-meta);
+  color: var(--on-forest);
+  min-height: 1.2em;
+  opacity: 0;
+  transition: opacity var(--ease-fast);
+}
+
+.newsletterStatus[data-visible] {
+  opacity: 1;
+}
+
 .newsletterRow button {
   border: none;
   border-radius: var(--radius-pill);
