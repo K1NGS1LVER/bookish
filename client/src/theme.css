@@ -86,8 +86,11 @@
   --container-pad: clamp(1rem, 0.7rem + 1.5vw, 1.5rem);
 
   /* Motion */
-  --ease-fast: 160ms ease;
+  --duration-fast: 160ms;
+  --ease-fast: var(--duration-fast) ease;
   --ease-drawer: 250ms ease-out;
+  --ease-page: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out-quint: no bounce */
+  --duration-page: 420ms;
 
   /* Layers */
   --z-header: 40;
@@ -224,5 +227,28 @@ a {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+/* ---- Page transitions (View Transitions API) ----
+   Elements sharing a view-transition-name (book cover, book title) morph
+   between the catalog and the details page; everything else cross-fades. */
+::view-transition-group(*) {
+  animation-duration: var(--duration-page);
+  animation-timing-function: var(--ease-page);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--duration-fast);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The blanket *,*::before,*::after rule above doesn't reach the
+     ::view-transition pseudo-element tree, so it needs its own guard. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatPrice, type Book } from "shared";
 import { coverUrl } from "../../api";
+import { useTransitionLinkClick } from "../../hooks";
 import { useCart } from "../../store/cartStore";
 import { Chip } from "../ui/Chip";
 import { RatingStars } from "../ui/RatingStars";
@@ -12,6 +13,8 @@ export function BookCard({ book }: { book: Book }) {
   const [justAdded, setJustAdded] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const out = book.stock === 0;
+  const bookHref = `/book/${book.id}`;
+  const onNavigate = useTransitionLinkClick(bookHref);
 
   useEffect(() => () => clearTimeout(timer.current), []);
 
@@ -24,7 +27,7 @@ export function BookCard({ book }: { book: Book }) {
 
   return (
     <article className={styles.card} data-out={out || undefined}>
-      <Link to={`/book/${book.id}`} className={styles.coverLink}>
+      <Link to={bookHref} className={styles.coverLink} onClick={onNavigate}>
         <span className={styles.genreChip}>
           <Chip>{book.genre}</Chip>
         </span>
@@ -35,10 +38,11 @@ export function BookCard({ book }: { book: Book }) {
           loading="lazy"
           width="220"
           height="330"
+          style={{ viewTransitionName: `book-cover-${book.id}` }}
         />
       </Link>
-      <h3 className={styles.title}>
-        <Link to={`/book/${book.id}`}>{book.title}</Link>
+      <h3 className={styles.title} style={{ viewTransitionName: `book-title-${book.id}` }}>
+        <Link to={bookHref} onClick={onNavigate}>{book.title}</Link>
       </h3>
       <p className={styles.author}>{book.author}</p>
       <RatingStars rating={book.rating} count={book.ratingCount} />

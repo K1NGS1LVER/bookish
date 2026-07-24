@@ -3,8 +3,11 @@ import {
   useEffect,
   useRef,
   useState,
+  type MouseEvent,
   type RefObject,
 } from "react";
+import { flushSync } from "react-dom";
+import { useNavigate } from "react-router-dom";
 
 export function useDebounced<T>(value: T, delayMs = 300): T {
   const [debounced, setDebounced] = useState(value);
@@ -120,6 +123,57 @@ export function useFocusTrap(
       prevFocus?.focus();
     };
   }, [ref, active, onClose]);
+}
+
+/**
+ * Navigate wrapped in the native View Transitions API, so elements sharing a
+ * `viewTransitionName` (e.g. a book cover in the grid and the same cover on
+ * its details page) morph into each other instead of hard-cutting.
+ * Falls back to a plain `navigate()` when the API is unsupported or the user
+ * prefers reduced motion — this is progressive enhancement, not a dependency.
+ */
+export function useTransitionNavigate() {
+  const navigate = useNavigate();
+  return useCallback(
+    (to: string) => {
+      const supported = typeof document.startViewTransition === "function";
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      if (!supported || reduceMotion) {
+        navigate(to);
+        return;
+      }
+      document.startViewTransition(() => {
+        flushSync(() => navigate(to));
+      });
+    },
+    [navigate]
+  );
+}
+
+/** Intercept a plain left-click (no modifier keys) to drive it through a
+ *  view-transition navigate, while letting cmd/ctrl/shift/middle-click fall
+ *  through to the browser's native "open in new tab" behavior. */
+export function useTransitionLinkClick(to: string) {
+  const navigateWithTransition = useTransitionNavigate();
+  return useCallback(
+    (e: MouseEvent) => {
+      if (
+        e.defaultPrevented ||
+        e.button !== 0 ||
+        e.metaKey ||
+        e.ctrlKey ||
+        e.shiftKey ||
+        e.altKey
+      ) {
+        return;
+      }
+      e.preventDefault();
+      navigateWithTransition(to);
+    },
+    [navigateWithTransition, to]
+  );
 }
 
 /** Lock body scroll while a drawer/sheet is open. */

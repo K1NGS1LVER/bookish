@@ -7,7 +7,7 @@ import { Button } from "../components/ui/Button";
 import { Chip } from "../components/ui/Chip";
 import { QuantityStepper } from "../components/ui/QuantityStepper";
 import { RatingStars } from "../components/ui/RatingStars";
-import { useFetch } from "../hooks";
+import { useFetch, useTransitionLinkClick } from "../hooks";
 import { useCart } from "../store/cartStore";
 import styles from "./BookPage.module.css";
 
@@ -64,11 +64,12 @@ function BookDetails({ book, related }: { book: Book; related: Book[] }) {
   }
 
   const addLabel = out ? "Out of stock" : justAdded ? "Added ✓" : "Add to cart";
+  const onBackToShelves = useTransitionLinkClick("/");
 
   return (
     <div className={styles.page}>
       <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
-        <Link to="/">Shelves</Link>
+        <Link to="/" onClick={onBackToShelves}>Shelves</Link>
         <span aria-hidden="true"> / </span>
         <Link to={`/?genres=${encodeURIComponent(book.genre)}#catalog`}>
           {book.genre}
@@ -85,12 +86,15 @@ function BookDetails({ book, related }: { book: Book; related: Book[] }) {
             alt={`Cover of ${book.title}`}
             width="380"
             height="570"
+            style={{ viewTransitionName: `book-cover-${book.id}` }}
           />
         </div>
 
         <div className={styles.info}>
           <Chip>{book.genre}</Chip>
-          <h1 className={styles.title}>{book.title}</h1>
+          <h1 className={styles.title} style={{ viewTransitionName: `book-title-${book.id}` }}>
+            {book.title}
+          </h1>
           <p className={styles.author}>
             by{" "}
             <Link to={`/?search=${encodeURIComponent(book.author)}#catalog`}>
