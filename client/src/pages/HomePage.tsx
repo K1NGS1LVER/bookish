@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, useDragControls } from "motion/react";
 import { useSearchParams } from "react-router-dom";
 import { fetchBooks, type BookQuery } from "../api";
 import { coverUrl } from "../api";
@@ -7,7 +8,8 @@ import { FilterPanel } from "../components/catalog/FilterPanel";
 import { BookGrid } from "../components/catalog/BookGrid";
 import { SortSelect } from "../components/catalog/SortSelect";
 import { Button } from "../components/ui/Button";
-import { useFetch, useFocusTrap, useScrollLock } from "../hooks";
+import { useFetch, useFocusTrap, usePrefersReducedMotion, useScrollLock } from "../hooks";
+import { drawerTransition, overlayVariants, panelVariantsY } from "../motion";
 import styles from "./HomePage.module.css";
 
 const HERO_COVERS = [
@@ -81,6 +83,8 @@ export function HomePage() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
   const closeSheet = useCallback(() => setSheetOpen(false), []);
+  const reducedMotion = usePrefersReducedMotion();
+  const dragControls = useDragControls();
   useFocusTrap(sheetRef, sheetOpen, closeSheet);
   useScrollLock(sheetOpen);
 
@@ -170,38 +174,67 @@ export function HomePage() {
         </div>
       </section>
 
-      {sheetOpen && (
-        <div className={styles.sheetRoot}>
-          <div
-            className={styles.sheetOverlay}
-            onClick={closeSheet}
-            aria-hidden="true"
-          />
-          <div
-            ref={sheetRef}
-            className={styles.sheet}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Filters"
-          >
-            <div className={styles.sheetHead}>
-              <h2>Filters</h2>
-              <button
-                type="button"
-                className={styles.sheetClose}
-                aria-label="Close filters"
-                onClick={closeSheet}
-              >
-                ×
-              </button>
-            </div>
-            <FilterPanel query={query} onChange={patch} onClear={clear} />
-            <Button full size="lg" onClick={closeSheet}>
-              Show {loading ? "…" : resultCount} book{resultCount === 1 ? "" : "s"}
-            </Button>
+      <AnimatePresence>
+        {sheetOpen && (
+          <div className={styles.sheetRoot}>
+            <motion.div
+              className={styles.sheetOverlay}
+              variants={overlayVariants}
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              transition={reducedMotion ? { duration: 0 } : drawerTransition()}
+              onClick={closeSheet}
+              aria-hidden="true"
+            />
+            <motion.div
+              ref={sheetRef}
+              className={styles.sheet}
+              drag="y"
+              dragControls={dragControls}
+              dragListener={false}
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0, bottom: 0.6 }}
+              onDragEnd={(_, info) => {
+                const DISMISS_PX = 120;
+                const DISMISS_VELOCITY = 500;
+                if (info.offset.y > DISMISS_PX || info.velocity.y > DISMISS_VELOCITY) {
+                  closeSheet();
+                }
+              }}
+              variants={panelVariantsY}
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              transition={reducedMotion ? { duration: 0 } : drawerTransition()}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Filters"
+            >
+              <div className={styles.sheetHead}>
+                <span
+                  className={styles.grabber}
+                  aria-hidden="true"
+                  onPointerDown={(e) => dragControls.start(e)}
+                />
+                <h2>Filters</h2>
+                <button
+                  type="button"
+                  className={styles.sheetClose}
+                  aria-label="Close filters"
+                  onClick={closeSheet}
+                >
+                  ×
+                </button>
+              </div>
+              <FilterPanel query={query} onChange={patch} onClear={clear} />
+              <Button full size="lg" onClick={closeSheet}>
+                Show {loading ? "…" : resultCount} book{resultCount === 1 ? "" : "s"}
+              </Button>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </>
   );
 }
