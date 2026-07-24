@@ -31,11 +31,20 @@ pnpm install
 pnpm dev
 ```
 
-Then open http://localhost:5173.
-
-That is the whole setup.
-The Express API starts on port 3001, Vite proxies `/api` to it, and the SQLite database (`server/bookish.db`) is created and seeded automatically on first boot.
+Then open http://localhost:5173 (backend runs on port 3001; Vite proxies `/api` to it automatically).
+The SQLite database (`server/bookish.db`) is created and seeded on first boot — nothing else to configure.
 To reset the store, delete `server/bookish.db` and restart.
+
+That's it. `pnpm dev` runs both frontend and backend together in one terminal.
+
+### Running frontend/backend separately
+
+Only need one of them (e.g. hitting the API from Postman, or working on UI against an already-running server)?
+
+```bash
+pnpm dev:server   # Express API only  -> http://localhost:3001
+pnpm dev:client   # Vite frontend only -> http://localhost:5173 (needs the server running for data)
+```
 
 ### Other commands
 
