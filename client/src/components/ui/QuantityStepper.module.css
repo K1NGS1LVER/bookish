@@ -11,6 +11,7 @@
   border: none;
   background: transparent;
   width: 2.25rem;
+  min-height: 2.75rem;
   cursor: pointer;
   font-size: var(--text-h3);
   color: var(--ink);

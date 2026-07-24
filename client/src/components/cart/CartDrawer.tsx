@@ -67,6 +67,7 @@ export function CartDrawer() {
                       className={styles.thumb}
                       src={coverUrl(book.isbn)}
                       alt=""
+                      loading="lazy"
                       width="56"
                       height="84"
                     />

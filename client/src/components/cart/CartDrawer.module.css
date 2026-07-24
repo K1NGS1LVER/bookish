@@ -55,7 +55,11 @@
   line-height: 1;
   color: var(--ink-soft);
   cursor: pointer;
-  padding: var(--space-1) var(--space-2);
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .close:hover {

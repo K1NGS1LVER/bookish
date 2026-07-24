@@ -149,7 +149,13 @@ export function CheckoutPage() {
           <ul className={styles.lines}>
             {items.map(({ book, qty }) => (
               <li key={book.id} className={styles.line}>
-                <img src={coverUrl(book.isbn)} alt="" width="40" height="60" />
+                <img
+                  src={coverUrl(book.isbn)}
+                  alt=""
+                  loading="lazy"
+                  width="40"
+                  height="60"
+                />
                 <span className={styles.lineTitle}>
                   {book.title}
                   <span className={styles.lineQty}> × {qty}</span>
