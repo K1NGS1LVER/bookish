@@ -1,4 +1,5 @@
 import type { InputHTMLAttributes } from "react";
+import { CircleAlert } from "lucide-react";
 import styles from "./FormField.module.css";
 
 interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -36,15 +37,7 @@ export function FormField({ id, label, error, hint, ...rest }: FormFieldProps) {
       )}
       {error && (
         <p id={errorId} className={styles.error}>
-          <svg
-            aria-hidden="true"
-            width="13"
-            height="13"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1 5h2v7h-2V7Zm0 9h2v2h-2v-2Z" />
-          </svg>
+          <CircleAlert aria-hidden="true" size={13} />
           {error}
         </p>
       )}

@@ -1,3 +1,4 @@
+import { CircleAlert } from "lucide-react";
 import { GENRES, priceRangeError } from "shared";
 import type { BookQuery } from "../../api";
 import { Button } from "../ui/Button";
@@ -74,9 +75,7 @@ export function FilterPanel({ query, onChange, onClear }: FilterPanelProps) {
         </div>
         {priceError && (
           <p id="price-range-error" role="alert" className={styles.priceError}>
-            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1 5h2v7h-2V7Zm0 9h2v2h-2v-2Z" />
-            </svg>
+            <CircleAlert aria-hidden="true" size={13} />
             {priceError}
           </p>
         )}
