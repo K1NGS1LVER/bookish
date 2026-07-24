@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "sonner";
 import { formatPrice, type Book } from "shared";
 import { coverUrl, fetchBook, fetchRelated } from "../api";
 import { BookCard } from "../components/catalog/BookCard";
@@ -48,22 +49,17 @@ function BookDetails({ book, related }: { book: Book; related: Book[] }) {
   const add = useCart((s) => s.add);
   const openDrawer = useCart((s) => s.openDrawer);
   const [qty, setQty] = useState(1);
-  const [justAdded, setJustAdded] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
   const out = book.stock === 0;
 
-  useEffect(() => () => clearTimeout(timer.current), []);
   useEffect(() => setQty(1), [book.id]);
 
   function onAdd() {
     add(book, qty);
-    setJustAdded(true);
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => setJustAdded(false), 1200);
+    toast.success(`Added "${book.title}" to cart`);
     openDrawer();
   }
 
-  const addLabel = out ? "Out of stock" : justAdded ? "Added ✓" : "Add to cart";
+  const addLabel = out ? "Out of stock" : "Add to cart";
   const onBackToShelves = useTransitionLinkClick("/");
 
   return (

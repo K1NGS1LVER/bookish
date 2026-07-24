@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { Toaster } from "sonner";
 import { ErrorBoundary } from "./components/layout/ErrorBoundary";
 import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
@@ -8,6 +9,7 @@ import { HomePage } from "./pages/HomePage";
 import { BookPage } from "./pages/BookPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import toasterStyles from "./components/layout/Toaster.module.css";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -32,6 +34,18 @@ export function App() {
       </main>
       <Footer />
       <CartDrawer />
+      <Toaster
+        position="top-center"
+        offset="5rem"
+        toastOptions={{
+          unstyled: true,
+          classNames: {
+            toast: toasterStyles.toast,
+            title: toasterStyles.title,
+            icon: toasterStyles.icon,
+          },
+        }}
+      />
     </ErrorBoundary>
   );
 }

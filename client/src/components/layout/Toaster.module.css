@@ -1,0 +1,20 @@
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--bg-card);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-lift);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-meta);
+}
+
+.title {
+  font-weight: 500;
+}
+
+.icon {
+  color: var(--success);
+}

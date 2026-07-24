@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import { formatPrice, type Book } from "shared";
 import { coverUrl } from "../../api";
 import { useTransitionLinkClick } from "../../hooks";
+import { tapScale, tapTransition } from "../../motion";
 import { useCart } from "../../store/cartStore";
 import { Chip } from "../ui/Chip";
 import { RatingStars } from "../ui/RatingStars";
@@ -10,19 +12,13 @@ import styles from "./BookCard.module.css";
 
 export function BookCard({ book }: { book: Book }) {
   const add = useCart((s) => s.add);
-  const [justAdded, setJustAdded] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
   const out = book.stock === 0;
   const bookHref = `/book/${book.id}`;
   const onNavigate = useTransitionLinkClick(bookHref);
 
-  useEffect(() => () => clearTimeout(timer.current), []);
-
   function onAdd() {
     add(book);
-    setJustAdded(true);
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => setJustAdded(false), 1200);
+    toast.success(`Added "${book.title}" to cart`);
   }
 
   return (
@@ -48,15 +44,16 @@ export function BookCard({ book }: { book: Book }) {
       <RatingStars rating={book.rating} count={book.ratingCount} />
       <div className={styles.priceRow}>
         <span className={styles.price}>{formatPrice(book.price)}</span>
-        <button
+        <motion.button
           type="button"
           className={styles.add}
           disabled={out}
-          data-added={justAdded || undefined}
+          whileTap={{ scale: tapScale() }}
+          transition={tapTransition()}
           onClick={onAdd}
         >
-          {out ? "Notify me" : justAdded ? "Added ✓" : "Add"}
-        </button>
+          {out ? "Notify me" : "Add"}
+        </motion.button>
       </div>
     </article>
   );

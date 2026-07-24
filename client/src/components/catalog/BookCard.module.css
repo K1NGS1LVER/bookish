@@ -105,8 +105,3 @@
   color: var(--ink-soft);
   cursor: not-allowed;
 }
-
-.add[data-added] {
-  background: var(--success);
-  color: var(--bg-card);
-}
