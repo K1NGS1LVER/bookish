@@ -17,15 +17,23 @@ export function useDebounced<T>(value: T, delayMs = 300): T {
 
 export interface Fetched<T> {
   data: T | null;
+  /** True only while there is no data to show yet (first load). */
   loading: boolean;
+  /** True whenever a request is in flight, including background refetches. */
+  isFetching: boolean;
   error: string | null;
   retry: () => void;
 }
 
-/** Fetch tied to a JSON-serializable key; refetches when the key changes. */
+/**
+ * Fetch tied to a JSON-serializable key; refetches when the key changes.
+ * Keeps showing the previous `data` while a refetch is in flight (rather than
+ * clearing it) so callers like a filtered grid don't flash a skeleton of a
+ * different size between two real results and cause the page to jump twice.
+ */
 export function useFetch<T>(fn: () => Promise<T>, key: string): Fetched<T> {
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
   const fnRef = useRef(fn);
@@ -33,7 +41,7 @@ export function useFetch<T>(fn: () => Promise<T>, key: string): Fetched<T> {
 
   useEffect(() => {
     let alive = true;
-    setLoading(true);
+    setIsFetching(true);
     setError(null);
     fnRef
       .current()
@@ -44,7 +52,7 @@ export function useFetch<T>(fn: () => Promise<T>, key: string): Fetched<T> {
         if (alive) setError(e.message);
       })
       .finally(() => {
-        if (alive) setLoading(false);
+        if (alive) setIsFetching(false);
       });
     return () => {
       alive = false;
@@ -52,7 +60,7 @@ export function useFetch<T>(fn: () => Promise<T>, key: string): Fetched<T> {
   }, [key, attempt]);
 
   const retry = useCallback(() => setAttempt((n) => n + 1), []);
-  return { data, loading, error, retry };
+  return { data, loading: isFetching && data === null, isFetching, error, retry };
 }
 
 export function useTheme(): [string, () => void] {

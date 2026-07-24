@@ -2,6 +2,12 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: var(--space-4);
+  transition: opacity var(--ease-fast);
+}
+
+.grid[data-fetching] {
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .emptyState {

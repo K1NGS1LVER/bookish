@@ -7,7 +7,6 @@ import { FilterPanel } from "../components/catalog/FilterPanel";
 import { BookGrid } from "../components/catalog/BookGrid";
 import { SortSelect } from "../components/catalog/SortSelect";
 import { Button } from "../components/ui/Button";
-import { Chip } from "../components/ui/Chip";
 import { useFetch, useFocusTrap, useScrollLock } from "../hooks";
 import styles from "./HomePage.module.css";
 
@@ -75,7 +74,7 @@ function useBookQuery(): [BookQuery, (patch: Partial<BookQuery>) => void, () => 
 
 export function HomePage() {
   const [query, patch, clear] = useBookQuery();
-  const { data: books, loading, error, retry } = useFetch(
+  const { data: books, loading, isFetching, error, retry } = useFetch(
     () => fetchBooks(query),
     JSON.stringify(query)
   );
@@ -92,7 +91,6 @@ export function HomePage() {
       <section className={styles.hero} id="top">
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
-            <Chip>Independent bookstore, est. 2026</Chip>
             <h1 className={styles.heroTitle}>Find your next favorite book.</h1>
             <p className={styles.heroText}>
               Hand-picked shelves across six genres, honest prices, and zero
@@ -167,7 +165,7 @@ export function HomePage() {
               </Button>
             </div>
           ) : (
-            <BookGrid books={books ?? []} loading={loading} />
+            <BookGrid books={books ?? []} loading={loading} isFetching={isFetching} />
           )}
         </div>
       </section>
