@@ -88,9 +88,14 @@
   /* Motion */
   --duration-fast: 160ms;
   --ease-fast: var(--duration-fast) ease;
-  --ease-drawer: 250ms ease-out;
   --ease-page: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out-quint: no bounce */
   --duration-page: 420ms;
+  --duration-drawer: 250ms;
+  --duration-card-enter: 280ms;
+  --stagger-step: 40ms;
+  --duration-grid-layout: 350ms;
+  --duration-tap: 100ms;
+  --scale-tap: 0.96;
 
   /* Layers */
   --z-header: 40;
