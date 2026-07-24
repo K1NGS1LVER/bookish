@@ -49,7 +49,7 @@ pnpm dev:client   # Vite frontend only -> http://localhost:5173 (needs the serve
 ### Other commands
 
 ```bash
-pnpm test            # 18 unit/integration tests (Vitest + Supertest)
+pnpm test            # 21 unit/integration tests (Vitest + Supertest)
 pnpm build           # typecheck both packages and build the client
 pnpm check:contrast  # WCAG AA audit of every theme token pair, light and dark
 ```
@@ -75,13 +75,27 @@ the checkout form and the `POST /api/orders` endpoint run the exact same rules, 
 | `GET /api/books/:id/related` | Up to 6 same-genre books. |
 | `POST /api/orders` | Re-validates server-side, checks and decrements stock in a transaction, returns an order number and totals. |
 
+## Form validation
+
+Every form, filter, and quantity control in the app validates its input and shows the user why, not just what. Nothing fails silently.
+
+| Where | Rules | Feedback |
+| --- | --- | --- |
+| **Checkout** (`CheckoutPage`) | Name required (2+ chars) · email format · phone exactly 10 digits · address required (5+ chars) · city/state required · PIN exactly 6 digits | Validates on blur, then re-validates on every keystroke once a field has shown an error. Invalid border + inline message with an icon, wired with `aria-invalid`/`aria-describedby`. Submit button stays disabled until the whole form is valid. Server (`POST /api/orders`) re-runs the exact same rules from `shared/validation.ts` and returns 400 with per-field errors if bypassed — client and server can never disagree. |
+| **Newsletter** (footer) | Same email regex as checkout, reused from `shared` rather than duplicated | Validates only on submit (Join click or Enter), per spec — not while typing. Shows "That doesn't look like a valid email" or "An email has been sent!" inline next to the field. No backend: this is a client-only UX demo. |
+| **Catalog filters — price range** (`FilterPanel`) | Neither bound can be negative · min can't exceed max | Both inputs get a red border and an inline error explaining exactly which rule failed the moment the range becomes invalid; clears itself the moment it's fixed. |
+| **Catalog filters — genre / rating / in-stock** | N/A by construction | Checkboxes and a radio group can't represent an invalid state, so there's nothing to validate — this is deliberate, not an omission. |
+| **Search** | N/A by construction | Free-text search accepts any string; there is no invalid query. |
+| **Quantity stepper** (book details + cart drawer, one shared component) | Typed quantity clamps to `[1, stock]` | Clicking ± is always clamped silently since it can't go out of range by construction. *Typing* an out-of-range value (e.g. 999, or 0, or empty) commits the clamped value **and** shows why — "Only N left in stock" or "Quantity must be at least 1" — instead of silently correcting it. The message clears on the next edit. |
+| **Cart quantity vs. stock** (checkout time) | Server re-checks stock inside the order transaction | If stock changed between adding to cart and checkout, the order is rejected (409) and rolled back rather than overselling. |
+
 ## Design decisions and assumptions
 
 - **Fully offline.** Fraunces and Inter are self-hosted woff2 files and all 48 cover images are committed to the repo, so nothing is fetched from the network at runtime.
 - **`node:sqlite` over a driver package.** Zero dependencies, zero node-gyp failures on the reviewer's machine. This is why Node 22+ is required.
 - **All design values are tokens.** `client/src/theme.css` is the single source of every color, radius, shadow, font size, and spacing value. Component CSS only references `var(--*)`. Dark mode is a second token set on `[data-theme="dark"]`.
 - **Filter state lives in the URL.** Searches and filters are shareable and survive refresh and the back button.
-- **Validation rules** (assumed for India): phone is exactly 10 digits, PIN code is exactly 6 digits. Fields validate on blur, then re-validate on every change once they have shown an error. Errors are wired with `aria-invalid` and `aria-describedby`.
+- **Checkout validation assumptions** (India): phone is exactly 10 digits, PIN code is exactly 6 digits. See the [Form validation](#form-validation) section above for the full picture across every form.
 - **Stock is enforced twice.** The UI clamps quantities to available stock, and the server rejects (409, transaction rolled back) any order that exceeds it.
 - **Rate limiting** is a small fixed-window in-memory middleware (300 requests/min per IP), which is appropriate for a single-process local app.
 - **Prices are in INR** with a flat mock 5% tax at checkout.

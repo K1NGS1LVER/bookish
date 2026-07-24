@@ -1,3 +1,9 @@
+.wrap {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
 .stepper {
   display: inline-flex;
   align-items: stretch;
@@ -5,6 +11,11 @@
   border-radius: var(--radius-pill);
   overflow: hidden;
   background: var(--bg-card);
+}
+
+.error {
+  font-size: var(--text-chip);
+  color: var(--error);
 }
 
 .btn {

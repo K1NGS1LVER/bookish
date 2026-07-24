@@ -59,3 +59,19 @@ export function validateCheckout(fields: CheckoutFields): CheckoutErrors {
   }
   return errors;
 }
+
+/** Validates a catalog price-range filter. Empty bounds are always valid
+ *  (no filter applied on that side). */
+export function priceRangeError(
+  minPrice?: string,
+  maxPrice?: string
+): string | null {
+  const min = minPrice ? Number(minPrice) : null;
+  const max = maxPrice ? Number(maxPrice) : null;
+  if (min !== null && min < 0) return "Minimum price can't be negative";
+  if (max !== null && max < 0) return "Maximum price can't be negative";
+  if (min !== null && max !== null && min > max) {
+    return "Minimum price can't be greater than maximum";
+  }
+  return null;
+}

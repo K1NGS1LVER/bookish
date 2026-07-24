@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   cartTotals,
   clampQty,
+  priceRangeError,
   validateCheckout,
   validateField,
 } from "shared";
@@ -79,5 +80,24 @@ describe("checkout validation", () => {
   it("rejects letters in phone and pin", () => {
     expect(validateField("phone", "98765abcde")).toBeTruthy();
     expect(validateField("pin", "60000a")).toBeTruthy();
+  });
+});
+
+describe("priceRangeError", () => {
+  it("accepts an empty, partial, or ascending range", () => {
+    expect(priceRangeError(undefined, undefined)).toBeNull();
+    expect(priceRangeError("100", undefined)).toBeNull();
+    expect(priceRangeError(undefined, "500")).toBeNull();
+    expect(priceRangeError("100", "500")).toBeNull();
+    expect(priceRangeError("100", "100")).toBeNull();
+  });
+
+  it("rejects min greater than max", () => {
+    expect(priceRangeError("500", "100")).toMatch(/greater than maximum/);
+  });
+
+  it("rejects negative bounds", () => {
+    expect(priceRangeError("-50", undefined)).toMatch(/negative/);
+    expect(priceRangeError(undefined, "-1")).toMatch(/negative/);
   });
 });

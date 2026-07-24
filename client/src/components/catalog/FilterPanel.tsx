@@ -1,4 +1,4 @@
-import { GENRES } from "shared";
+import { GENRES, priceRangeError } from "shared";
 import type { BookQuery } from "../../api";
 import { Button } from "../ui/Button";
 import styles from "./FilterPanel.module.css";
@@ -11,6 +11,7 @@ export interface FilterPanelProps {
 
 export function FilterPanel({ query, onChange, onClear }: FilterPanelProps) {
   const genres = query.genres ?? [];
+  const priceError = priceRangeError(query.minPrice, query.maxPrice);
 
   function toggleGenre(genre: string) {
     onChange({
@@ -48,6 +49,9 @@ export function FilterPanel({ query, onChange, onClear }: FilterPanelProps) {
               placeholder="0"
               value={query.minPrice ?? ""}
               onChange={(e) => onChange({ minPrice: e.target.value })}
+              aria-invalid={priceError ? true : undefined}
+              aria-describedby={priceError ? "price-range-error" : undefined}
+              data-error={priceError ? true : undefined}
             />
           </label>
           <span className={styles.priceDash} aria-hidden="true">
@@ -62,9 +66,20 @@ export function FilterPanel({ query, onChange, onClear }: FilterPanelProps) {
               placeholder="999"
               value={query.maxPrice ?? ""}
               onChange={(e) => onChange({ maxPrice: e.target.value })}
+              aria-invalid={priceError ? true : undefined}
+              aria-describedby={priceError ? "price-range-error" : undefined}
+              data-error={priceError ? true : undefined}
             />
           </label>
         </div>
+        {priceError && (
+          <p id="price-range-error" role="alert" className={styles.priceError}>
+            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1 5h2v7h-2V7Zm0 9h2v2h-2v-2Z" />
+            </svg>
+            {priceError}
+          </p>
+        )}
       </fieldset>
 
       <fieldset className={styles.group}>

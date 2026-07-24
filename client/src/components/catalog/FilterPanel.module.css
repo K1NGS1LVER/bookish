@@ -64,9 +64,21 @@
   border-color: var(--heading);
 }
 
+.priceField input[data-error] {
+  border-color: var(--error);
+}
+
 .priceDash {
   color: var(--ink-soft);
   padding-bottom: var(--space-2);
+}
+
+.priceError {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-meta);
+  color: var(--error);
 }
 
 .ratingRow {
