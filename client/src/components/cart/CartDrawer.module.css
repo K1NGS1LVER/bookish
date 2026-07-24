@@ -8,7 +8,6 @@
   position: absolute;
   inset: 0;
   background: var(--overlay);
-  animation: fade-in var(--ease-drawer);
 }
 
 .panel {
@@ -21,19 +20,6 @@
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-lift);
-  animation: slide-in var(--ease-drawer);
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
-@keyframes slide-in {
-  from {
-    transform: translateX(100%);
-  }
 }
 
 .head {
