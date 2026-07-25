@@ -237,15 +237,28 @@ a {
 
 /* ---- Page transitions (View Transitions API) ----
    Elements sharing a view-transition-name (book cover, book title) morph
-   between the catalog and the details page; everything else cross-fades. */
+   between the catalog and the details page; everything else cross-fades.
+
+   Deliberate exception to "always use var(--*) tokens": the
+   ::view-transition-* pseudo-element tree is a separate browser-generated
+   overlay, not part of the normal document tree, and custom-property
+   resolution inside it is unreliable — confirmed by testing: var() here
+   silently collapsed to a near-zero duration instead of the intended
+   ~420ms, while the identical literal value animated correctly. Literal
+   values below still mirror --duration-page/--ease-page/--duration-fast;
+   keep them in sync by hand if those tokens ever change. */
 ::view-transition-group(*) {
-  animation-duration: var(--duration-page);
-  animation-timing-function: var(--ease-page);
+  animation-duration: 420ms;
+  /* Deliberately gentler than --ease-page's ease-out-quint: that curve
+     front-loads ~90% of the size change into the first ~50ms, which reads
+     as a snap rather than a scale for a modest (~1.8x) cover size delta.
+     ease-in-out spreads the motion evenly across the full duration. */
+  animation-timing-function: ease-in-out;
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: var(--duration-fast);
+  animation-duration: 160ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
