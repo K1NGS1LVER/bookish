@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
+import { MotionConfig } from "motion/react";
+import { ReactLenis, useLenis } from "lenis/react";
 import { ErrorBoundary } from "./components/layout/ErrorBoundary";
 import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
@@ -9,18 +11,26 @@ import { HomePage } from "./pages/HomePage";
 import { BookPage } from "./pages/BookPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { usePrefersReducedMotion } from "./hooks";
 import toasterStyles from "./components/layout/Toaster.module.css";
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+  const lenis = useLenis();
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (hash) return; // let the #catalog hash-scroll effect (HomePage) handle this landing
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash, lenis]);
   return null;
 }
 
 export function App() {
-  return (
+  const reducedMotion = usePrefersReducedMotion();
+  const shell = (
     <ErrorBoundary>
       <ScrollToTop />
       <Header />
@@ -47,5 +57,13 @@ export function App() {
         }}
       />
     </ErrorBoundary>
+  );
+  if (reducedMotion) {
+    return <MotionConfig reducedMotion="user">{shell}</MotionConfig>;
+  }
+  return (
+    <ReactLenis root options={{ autoRaf: true }}>
+      <MotionConfig reducedMotion="user">{shell}</MotionConfig>
+    </ReactLenis>
   );
 }

@@ -1,6 +1,7 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useDragControls } from "motion/react";
-import { useSearchParams } from "react-router-dom";
+import { useLenis } from "lenis/react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { fetchBooks, type BookQuery } from "../api";
 import { coverUrl } from "../api";
 import { FilterChips } from "../components/catalog/FilterChips";
@@ -87,6 +88,24 @@ export function HomePage() {
   const dragControls = useDragControls();
   useFocusTrap(sheetRef, sheetOpen, closeSheet);
   useScrollLock(sheetOpen);
+  const lenis = useLenis();
+  const location = useLocation();
+
+  const scrollToCatalog = useCallback(() => {
+    const el = document.getElementById("catalog");
+    if (!el) return;
+    if (lenis) {
+      lenis.scrollTo(el);
+    } else {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [lenis]);
+
+  useEffect(() => {
+    if (location.hash === "#catalog") {
+      scrollToCatalog();
+    }
+  }, [location.hash, scrollToCatalog]);
 
   const resultCount = books?.length ?? 0;
 
@@ -239,6 +258,3 @@ export function HomePage() {
   );
 }
 
-function scrollToCatalog() {
-  document.getElementById("catalog")?.scrollIntoView({ behavior: "smooth" });
-}
