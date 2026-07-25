@@ -3,6 +3,8 @@
   color: var(--on-forest);
   margin-top: var(--section-y);
   padding: var(--space-7) var(--container-pad) var(--space-5);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
 }
 
 .inner {

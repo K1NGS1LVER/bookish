@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type MouseEvent,
@@ -190,7 +191,7 @@ export function useScrollLock(active: boolean): void {
   }, [active]);
 }
 
-/** Set document.title and standard meta tags on mount, restore on unmount. */
+// Runs synchronously before paint to avoid title/meta flash on navigation.
 export function useHead(opts: {
   title?: string;
   description?: string;
@@ -198,7 +199,7 @@ export function useHead(opts: {
   url?: string;
   type?: string;
 }) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const prev = document.title;
     const meta = (name: string, content: string) => {
       let el = document.querySelector<HTMLMetaElement>(

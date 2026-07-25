@@ -29,7 +29,6 @@ export function CoverImage({
         width={width}
         height={height}
         loading={loading}
-        decoding="async"
         style={style}
       />
     </picture>
