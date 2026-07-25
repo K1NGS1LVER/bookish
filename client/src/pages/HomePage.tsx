@@ -195,7 +195,7 @@ export function HomePage() {
 
       <AnimatePresence>
         {sheetOpen && (
-          <div className={styles.sheetRoot}>
+          <div className={styles.sheetRoot} data-lenis-prevent>
             <motion.div
               className={styles.sheetOverlay}
               variants={overlayVariants}

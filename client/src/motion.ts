@@ -53,6 +53,6 @@ export function tapScale(): number {
   return cssNumber("--scale-tap");
 }
 
-export function staggerTransition(): { staggerChildren: number } {
-  return { staggerChildren: cssSeconds("--stagger-step") };
+export function staggerStepSeconds(): number {
+  return cssSeconds("--stagger-step");
 }

@@ -1,13 +1,19 @@
 import type { Book } from "shared";
 import { AnimatePresence, motion } from "motion/react";
-import { cardEnterTransition, gridItemVariants, layoutTransition } from "../../motion";
+import {
+  cardEnterTransition,
+  gridItemVariants,
+  layoutTransition,
+  staggerStepSeconds,
+} from "../../motion";
 import { usePrefersReducedMotion } from "../../hooks";
 import { SkeletonCard } from "../ui/Skeleton";
 import { BookCard } from "./BookCard";
 import styles from "./BookGrid.module.css";
 
-// mirrors --stagger-step (40ms) in theme.css
-const STAGGER_STEP_SECONDS = 0.04;
+// Cap how many cards' worth of stagger delay stack up, so a large result
+// set still finishes its entrance cascade in a bounded time.
+const MAX_STAGGER_INDEX = 12;
 
 export function BookGrid({
   books,
@@ -57,16 +63,22 @@ export function BookGrid({
             layout
             variants={gridItemVariants}
             initial="hidden"
-            animate="show"
+            animate={
+              reducedMotion
+                ? "show"
+                : {
+                    ...gridItemVariants.show,
+                    transition: {
+                      ...cardEnterTransition(),
+                      delay: Math.min(index, MAX_STAGGER_INDEX) * staggerStepSeconds(),
+                    },
+                  }
+            }
             exit="hidden"
             transition={
               reducedMotion
                 ? { duration: 0 }
-                : {
-                    ...cardEnterTransition(),
-                    delay: index * STAGGER_STEP_SECONDS,
-                    layout: layoutTransition(),
-                  }
+                : { ...cardEnterTransition(), layout: layoutTransition() }
             }
           >
             <BookCard book={book} />

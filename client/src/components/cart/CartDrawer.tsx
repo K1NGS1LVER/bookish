@@ -25,7 +25,7 @@ export function CartDrawer() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className={styles.root}>
+        <div className={styles.root} data-lenis-prevent>
           <motion.div
             className={styles.overlay}
             variants={overlayVariants}
