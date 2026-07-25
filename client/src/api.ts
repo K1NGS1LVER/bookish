@@ -70,3 +70,7 @@ export function createOrder(input: OrderInput): Promise<OrderConfirmation> {
 export function coverUrl(isbn: string): string {
   return `/covers/${isbn}.jpg`;
 }
+
+export function coverUrlWebp(isbn: string): string {
+  return `/covers/${isbn}.webp`;
+}

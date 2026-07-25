@@ -9,9 +9,11 @@ import {
   type CheckoutFields,
   type OrderConfirmation,
 } from "shared";
-import { ApiError, coverUrl, createOrder } from "../api";
+import { ApiError, createOrder } from "../api";
 import { FormField } from "../components/checkout/FormField";
 import { Button } from "../components/ui/Button";
+import { CoverImage } from "../components/ui/CoverImage";
+import { useHead } from "../hooks";
 import { useCart } from "../store/cartStore";
 import styles from "./CheckoutPage.module.css";
 
@@ -48,6 +50,11 @@ export function CheckoutPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [confirmation, setConfirmation] = useState<OrderConfirmation | null>(null);
+
+  useHead({
+    title: "Checkout — Bookish.",
+    description: "Complete your order at Bookish bookstore.",
+  });
 
   if (confirmation) return <SuccessScreen confirmation={confirmation} />;
 
@@ -149,12 +156,12 @@ export function CheckoutPage() {
           <ul className={styles.lines}>
             {items.map(({ book, qty }) => (
               <li key={book.id} className={styles.line}>
-                <img
-                  src={coverUrl(book.isbn)}
+                <CoverImage
+                  isbn={book.isbn}
                   alt={`Cover of ${book.title}`}
                   loading="lazy"
-                  width="40"
-                  height="60"
+                  width={40}
+                  height={60}
                 />
                 <span className={styles.lineTitle}>
                   {book.title}

@@ -2,11 +2,11 @@ import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { formatPrice, type Book } from "shared";
-import { coverUrl } from "../../api";
 import { useTransitionLinkClick } from "../../hooks";
 import { tapScale, tapTransition } from "../../motion";
 import { useCart } from "../../store/cartStore";
 import { Chip } from "../ui/Chip";
+import { CoverImage } from "../ui/CoverImage";
 import { RatingStars } from "../ui/RatingStars";
 import styles from "./BookCard.module.css";
 
@@ -27,13 +27,13 @@ export function BookCard({ book }: { book: Book }) {
         <span className={styles.genreChip}>
           <Chip>{book.genre}</Chip>
         </span>
-        <img
-          className={styles.cover}
-          src={coverUrl(book.isbn)}
+        <CoverImage
+          isbn={book.isbn}
           alt={`Cover of ${book.title}`}
           loading="lazy"
-          width="220"
-          height="330"
+          width={220}
+          height={330}
+          className={styles.cover}
           style={{ viewTransitionName: `book-cover-${book.id}` }}
         />
       </Link>

@@ -2,11 +2,11 @@ import { useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
 import { cartTotals, formatPrice } from "shared";
-import { coverUrl } from "../../api";
 import { useFocusTrap, usePrefersReducedMotion, useScrollLock } from "../../hooks";
 import { drawerTransition, overlayVariants, panelVariantsX } from "../../motion";
 import { useCart } from "../../store/cartStore";
 import { Button } from "../ui/Button";
+import { CoverImage } from "../ui/CoverImage";
 import { QuantityStepper } from "../ui/QuantityStepper";
 import styles from "./CartDrawer.module.css";
 
@@ -80,13 +80,13 @@ export function CartDrawer() {
                         onClick={closeDrawer}
                         className={styles.thumbLink}
                       >
-                        <img
-                          className={styles.thumb}
-                          src={coverUrl(book.isbn)}
+                        <CoverImage
+                          isbn={book.isbn}
                           alt={`Cover of ${book.title}`}
                           loading="lazy"
-                          width="56"
-                          height="84"
+                          width={56}
+                          height={84}
+                          className={styles.thumb}
                         />
                       </Link>
                       <div className={styles.itemBody}>

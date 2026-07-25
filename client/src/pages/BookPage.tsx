@@ -6,9 +6,10 @@ import { coverUrl, fetchBook, fetchRelated } from "../api";
 import { RelatedCarousel } from "../components/catalog/RelatedCarousel";
 import { Button } from "../components/ui/Button";
 import { Chip } from "../components/ui/Chip";
+import { CoverImage } from "../components/ui/CoverImage";
 import { QuantityStepper } from "../components/ui/QuantityStepper";
 import { RatingStars } from "../components/ui/RatingStars";
-import { useFetch, useTransitionLinkClick } from "../hooks";
+import { useFetch, useHead, useTransitionLinkClick } from "../hooks";
 import { useCart } from "../store/cartStore";
 import styles from "./BookPage.module.css";
 
@@ -65,6 +66,14 @@ function BookDetails({ book, related }: { book: Book; related: Book[] }) {
 
   useEffect(() => setQty(1), [book.id]);
 
+  useHead({
+    title: `${book.title} by ${book.author} — Bookish.`,
+    description: book.description.slice(0, 160),
+    image: coverUrl(book.isbn),
+    url: `/book/${book.id}`,
+    type: "book",
+  });
+
   function onAdd() {
     add(book, qty);
     toast.success(`Added "${book.title}" to cart`);
@@ -76,6 +85,37 @@ function BookDetails({ book, related }: { book: Book; related: Book[] }) {
 
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Book",
+            name: book.title,
+            author: { "@type": "Person", name: book.author },
+            isbn: book.isbn,
+            genre: book.genre,
+            description: book.description,
+            numberOfPages: book.pages,
+            publisher: book.publisher,
+            datePublished: String(book.year),
+            image: coverUrl(book.isbn),
+            offers: {
+              "@type": "Offer",
+              price: book.price,
+              priceCurrency: "INR",
+              availability: book.stock > 0
+                ? "https://schema.org/InStock"
+                : "https://schema.org/OutOfStock",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: book.rating,
+              ratingCount: book.ratingCount,
+            },
+          }),
+        }}
+      />
       <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
         <Link to="/" onClick={onBackToShelves}>Shelves</Link>
         <span aria-hidden="true"> / </span>
@@ -88,12 +128,13 @@ function BookDetails({ book, related }: { book: Book; related: Book[] }) {
 
       <div className={styles.layout}>
         <div className={styles.coverPanel}>
-          <img
-            className={styles.cover}
-            src={coverUrl(book.isbn)}
+          <CoverImage
+            isbn={book.isbn}
             alt={`Cover of ${book.title}`}
-            width="380"
-            height="570"
+            width={380}
+            height={570}
+            loading="eager"
+            className={styles.cover}
             style={{ viewTransitionName: `book-cover-${book.id}` }}
           />
         </div>

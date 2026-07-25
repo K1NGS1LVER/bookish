@@ -3,13 +3,13 @@ import { AnimatePresence, motion, useDragControls } from "motion/react";
 import { useLenis } from "lenis/react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { fetchBooks, type BookQuery } from "../api";
-import { coverUrl } from "../api";
+import { coverUrl, coverUrlWebp } from "../api";
 import { FilterChips } from "../components/catalog/FilterChips";
 import { FilterPanel } from "../components/catalog/FilterPanel";
 import { BookGrid } from "../components/catalog/BookGrid";
 import { SortSelect } from "../components/catalog/SortSelect";
 import { Button } from "../components/ui/Button";
-import { useFetch, useFocusTrap, usePrefersReducedMotion, useScrollLock } from "../hooks";
+import { useFetch, useFocusTrap, useHead, usePrefersReducedMotion, useScrollLock } from "../hooks";
 import { drawerTransition, overlayVariants, panelVariantsY } from "../motion";
 import styles from "./HomePage.module.css";
 
@@ -91,6 +91,13 @@ export function HomePage() {
   const lenis = useLenis();
   const location = useLocation();
 
+  useHead({
+    title: query.search
+      ? `Results for "${query.search}" — Bookish.`
+      : "Bookish. — Find your next favorite book",
+    description: "Hand-picked shelves across six genres, honest prices, and zero algorithms judging your guilty pleasures.",
+  });
+
   const scrollToCatalog = useCallback(() => {
     const el = document.getElementById("catalog");
     if (!el) return;
@@ -155,13 +162,15 @@ export function HomePage() {
           </div>
           <div className={styles.heroCovers} aria-hidden="true">
             {HERO_COVERS.map((c) => (
-              <img
-                key={c.isbn}
-                src={coverUrl(c.isbn)}
-                alt=""
-                width="150"
-                height="225"
-              />
+              <picture key={c.isbn}>
+                <source srcSet={coverUrlWebp(c.isbn)} type="image/webp" />
+                <img
+                  src={coverUrl(c.isbn)}
+                  alt=""
+                  width="150"
+                  height="225"
+                />
+              </picture>
             ))}
           </div>
         </div>
@@ -176,9 +185,9 @@ export function HomePage() {
         <div className={styles.results}>
           <div className={styles.toolbar}>
             <h2 className={styles.resultsTitle}>
-              {query.search ? `Results for “${query.search}”` : "The shelves"}
+              {query.search ? `Results for "${query.search}"` : "The shelves"}
               {!loading && (
-                <span className={styles.count}> · {resultCount} book{resultCount === 1 ? "" : "s"}</span>
+                <span className={styles.count} aria-live="polite"> · {resultCount} book{resultCount === 1 ? "" : "s"}</span>
               )}
             </h2>
             <div className={styles.toolbarActions}>
