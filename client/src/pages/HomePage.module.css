@@ -4,6 +4,9 @@
   overflow: hidden;
   background: var(--bg-butter);
   border-bottom: 1px solid var(--border);
+  /* Promote to compositor layer so feTurbulence grain is rasterized once
+     instead of recomposited every scroll frame. */
+  will-change: transform;
 }
 
 .hero::after {
