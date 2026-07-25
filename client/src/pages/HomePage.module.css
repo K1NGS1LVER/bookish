@@ -63,13 +63,16 @@
   padding: var(--space-4) var(--space-2);
 }
 
+.heroCovers picture {
+  flex-shrink: 0;
+}
+
 .heroCovers img {
   width: 110px;
   height: 165px;
   object-fit: cover;
   border-radius: var(--radius-img);
   box-shadow: var(--shadow-lift);
-  flex-shrink: 0;
 }
 
 /* ---- Catalog layout ---- */
@@ -226,23 +229,23 @@
     height: 210px;
   }
 
-  .heroCovers img:not(:first-child) {
+  .heroCovers picture:not(:first-child) {
     margin-left: -2.5rem;
   }
 
-  .heroCovers img:nth-child(1) {
+  .heroCovers picture:nth-child(1) {
     transform: rotate(-6deg);
   }
 
-  .heroCovers img:nth-child(2) {
+  .heroCovers picture:nth-child(2) {
     transform: rotate(0deg) translateY(-0.75rem);
   }
 
-  .heroCovers img:nth-child(3) {
+  .heroCovers picture:nth-child(3) {
     transform: rotate(5deg);
   }
 
-  .heroCovers img:nth-child(4) {
+  .heroCovers picture:nth-child(4) {
     transform: rotate(9deg) translateY(0.5rem);
   }
 }
