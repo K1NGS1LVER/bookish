@@ -28,12 +28,8 @@ export interface Fetched<T> {
   retry: () => void;
 }
 
-/**
- * Fetch tied to a JSON-serializable key; refetches when the key changes.
- * Keeps showing the previous `data` while a refetch is in flight (rather than
- * clearing it) so callers like a filtered grid don't flash a skeleton of a
- * different size between two real results and cause the page to jump twice.
- */
+/** Refetches on key change; keeps stale data visible during background fetches
+ *  so filtered grids don't flash-jump between skeleton sizes. */
 export function useFetch<T>(fn: () => Promise<T>, key: string): Fetched<T> {
   const [data, setData] = useState<T | null>(null);
   const [isFetching, setIsFetching] = useState(true);
@@ -138,13 +134,8 @@ export function useFocusTrap(
   }, [ref, active, onClose]);
 }
 
-/**
- * Navigate wrapped in the native View Transitions API, so elements sharing a
- * `viewTransitionName` (e.g. a book cover in the grid and the same cover on
- * its details page) morph into each other instead of hard-cutting.
- * Falls back to a plain `navigate()` when the API is unsupported or the user
- * prefers reduced motion — this is progressive enhancement, not a dependency.
- */
+// Progressive enhancement: morphs shared viewTransitionName elements between routes.
+// Falls back to plain navigate when the API is missing or reduced motion is preferred.
 export function useTransitionNavigate() {
   const navigate = useNavigate();
   return useCallback(
@@ -165,9 +156,7 @@ export function useTransitionNavigate() {
   );
 }
 
-/** Intercept a plain left-click (no modifier keys) to drive it through a
- *  view-transition navigate, while letting cmd/ctrl/shift/middle-click fall
- *  through to the browser's native "open in new tab" behavior. */
+// Lets cmd/ctrl/shift/middle-click pass through for "open in new tab".
 export function useTransitionLinkClick(to: string) {
   const navigateWithTransition = useTransitionNavigate();
   return useCallback(
