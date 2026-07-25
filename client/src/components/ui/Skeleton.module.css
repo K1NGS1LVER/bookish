@@ -5,6 +5,7 @@
   padding: var(--space-4);
   display: grid;
   gap: var(--space-3);
+  height: 100%;
 }
 
 .shimmer {
