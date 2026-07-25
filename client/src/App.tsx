@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import { MotionConfig } from "motion/react";
@@ -8,11 +8,18 @@ import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
 import { CartDrawer } from "./components/cart/CartDrawer";
 import { HomePage } from "./pages/HomePage";
-import { BookPage } from "./pages/BookPage";
-import { CheckoutPage } from "./pages/CheckoutPage";
-import { NotFoundPage } from "./pages/NotFoundPage";
 import { usePrefersReducedMotion } from "./hooks";
 import toasterStyles from "./components/layout/Toaster.module.css";
+
+const BookPage = lazy(() =>
+  import("./pages/BookPage").then((m) => ({ default: m.BookPage }))
+);
+const CheckoutPage = lazy(() =>
+  import("./pages/CheckoutPage").then((m) => ({ default: m.CheckoutPage }))
+);
+const NotFoundPage = lazy(() =>
+  import("./pages/NotFoundPage").then((m) => ({ default: m.NotFoundPage }))
+);
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -44,7 +51,9 @@ export function App() {
             path="/book/:id"
             element={
               <ErrorBoundary>
-                <BookPage />
+                <Suspense>
+                  <BookPage />
+                </Suspense>
               </ErrorBoundary>
             }
           />
@@ -52,11 +61,20 @@ export function App() {
             path="/checkout"
             element={
               <ErrorBoundary>
-                <CheckoutPage />
+                <Suspense>
+                  <CheckoutPage />
+                </Suspense>
               </ErrorBoundary>
             }
           />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route
+            path="*"
+            element={
+              <Suspense>
+                <NotFoundPage />
+              </Suspense>
+            }
+          />
         </Routes>
       </main>
       <Footer />
