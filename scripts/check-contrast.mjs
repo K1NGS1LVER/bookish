@@ -52,6 +52,7 @@ const PAIRS = [
   ["--error", "--bg-card", 4.5, "form error text"],
   ["--success", "--bg-page", 4.5, "success text"],
   ["--on-forest", "--forest", 4.5, "footer text"],
+  ["--success", "--bg-card", 4.5, "toast success icon"],
 ];
 
 let failed = false;

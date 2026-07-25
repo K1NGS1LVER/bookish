@@ -13,7 +13,7 @@ React + TypeScript on the front, Express + SQLite on the back, and it runs compl
 - Debounced search across title, author, and ISBN.
 - Filters: genre, price range, minimum rating, in-stock only, with removable active-filter chips.
 - Sorting: relevance, price (both directions), rating.
-- Book details page with sticky cover, accordion sections, and a "More like this" row.
+- Book details page with sticky cover, accordion sections, and a "More like this" carousel (snap scrolling, prev/next arrows).
 - Slide-over shopping cart with quantity stepper (typing allowed, clamps to stock), persisted to localStorage.
 - Checkout summary with full form validation and a 5% mock tax. No payment gateway.
 - Light and dark themes with a toggle. Every text/background pair passes WCAG AA (verified by script).
@@ -57,7 +57,7 @@ pnpm check:contrast  # WCAG AA audit of every theme token pair, light and dark
 ## Project structure
 
 ```
-client/   Vite + React + TypeScript UI (Zustand cart, CSS modules)
+client/   Vite + React + TypeScript UI (Zustand cart, CSS modules, motion/lenis/embla/sonner/lucide for animation)
 server/   Express + node:sqlite API (search/filter/sort in SQL, orders, rate limit)
 shared/   Types, validation rules, and cart math imported by BOTH sides
 scripts/  check-contrast.mjs - parses theme.css and fails if any pair drops below AA
@@ -100,12 +100,12 @@ Every form, filter, and quantity control in the app validates its input and show
 - **Rate limiting** is a small fixed-window in-memory middleware (300 requests/min per IP), which is appropriate for a single-process local app.
 - **Prices are in INR** with a flat mock 5% tax at checkout.
 - Book metadata (titles, authors, ISBNs, covers) is real; ratings, prices, and stock are fabricated seed data.
-- Cover images are fetched once at development time from Open Library and bundled. Two books are seeded out of stock on purpose to show that state.
+- Cover images are fetched once at development time from Open Library and bundled. Six books are seeded out of stock on purpose to show that state.
 
 ## Accessibility
 
 - Full keyboard support: the cart drawer and mobile filter sheet trap focus and close on Escape, and every interactive element has a visible `:focus-visible` outline.
-- WCAG AA contrast in both themes, enforced by `pnpm check:contrast` (28 pairs, all held to 4.5:1).
+- WCAG AA contrast in both themes, enforced by `pnpm check:contrast` (30 pairs, all held to 4.5:1).
 - Semantic landmarks, labeled dialogs, `aria-live`-free forms with per-field error wiring, and `prefers-reduced-motion` support.
 - Images use `loading="lazy"` inside fixed aspect-ratio boxes, so the layout never shifts.
 

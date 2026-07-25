@@ -169,6 +169,7 @@
   border-radius: var(--radius-pill);
   background: var(--border);
   cursor: grab;
+  touch-action: none;
 }
 
 .sheetHead h2 {
