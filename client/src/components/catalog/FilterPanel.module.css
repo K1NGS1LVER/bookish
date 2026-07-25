@@ -121,3 +121,7 @@
 .stockToggle {
   font-weight: 500;
 }
+
+.clearAll {
+  justify-self: start;
+}

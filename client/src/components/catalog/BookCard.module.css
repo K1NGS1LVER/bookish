@@ -88,24 +88,51 @@
 }
 
 .add {
-  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
   border: none;
   border-radius: var(--radius-pill);
   background: var(--accent);
   color: var(--accent-contrast);
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color var(--ease-fast);
+}
+
+.add:hover {
+  background: var(--accent-hover);
+}
+
+[data-theme="light"] .add {
+  color: var(--bg-page);
+}
+
+.add[data-added] {
+  background: var(--success);
+  color: var(--on-forest);
+}
+
+.addIcon {
+  display: inline-flex;
+}
+
+.notify {
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card);
+  color: var(--ink);
   font-weight: 600;
-  padding: var(--space-2) var(--space-4);
-  min-height: 2.75rem;
+  font-size: var(--text-meta);
+  padding: var(--space-2) var(--space-3);
   cursor: pointer;
   transition: background-color var(--ease-fast);
 }
 
-.add:hover:not(:disabled) {
-  background: var(--accent-hover);
-}
-
-.add:disabled {
+.notify:hover {
   background: var(--bg-sand);
-  color: var(--ink-soft);
-  cursor: not-allowed;
 }

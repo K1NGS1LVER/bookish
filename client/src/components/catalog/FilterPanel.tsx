@@ -107,7 +107,7 @@ export function FilterPanel({ query, onChange, onClear }: FilterPanelProps) {
         In stock only
       </label>
 
-      <Button variant="quiet" onClick={onClear}>
+      <Button variant="quiet" className={styles.clearAll} onClick={onClear}>
         Clear all
       </Button>
     </div>

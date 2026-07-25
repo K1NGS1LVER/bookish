@@ -24,3 +24,9 @@
 .count {
   color: var(--ink-soft);
 }
+
+@media (max-width: 639px) {
+  .count {
+    display: none;
+  }
+}
