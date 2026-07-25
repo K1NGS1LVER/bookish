@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, forwardRef } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { Moon, Search, ShoppingBag, Sun } from "lucide-react";
 import { useDebounced, useTheme } from "../../hooks";
 import { cartCount, useCart } from "../../store/cartStore";
@@ -64,22 +64,33 @@ export function Header() {
   return (
     <header className={styles.header} data-scrolled={scrolled || undefined}>
       <div className={styles.inner}>
-        <Link to="/" className={styles.wordmark} aria-label="Bookish home">
-          <img
-            className={styles.logoLarge}
-            src="/logo.svg"
-            alt=""
-            width="160"
-            height="40"
-          />
-          <img
-            className={styles.logoSmall}
-            src="/logo-small.svg"
-            alt=""
-            width="32"
-            height="32"
-          />
-        </Link>
+        <div className={styles.brand}>
+          <Link to="/" className={styles.wordmark} aria-label="Bookish home">
+            <img
+              className={styles.logoLarge}
+              src="/logo.svg"
+              alt=""
+              width="160"
+              height="40"
+            />
+            <img
+              className={styles.logoSmall}
+              src="/logo-small.svg"
+              alt=""
+              width="32"
+              height="32"
+            />
+          </Link>
+
+          <nav className={styles.nav} aria-label="Primary">
+            <NavLink to="/about" className={styles.navLink}>
+              About
+            </NavLink>
+            <NavLink to="/contact" className={styles.navLink}>
+              Contact
+            </NavLink>
+          </nav>
+        </div>
 
         <div className={styles.searchDesktop}>
           <SearchInput id="site-search" />

@@ -20,11 +20,43 @@
   gap: var(--space-4);
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0%;
+  min-width: max-content;
+  gap: var(--space-6);
+}
+
 .wordmark {
   display: flex;
   align-items: center;
   flex-shrink: 0;
   text-decoration: none;
+}
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.navLink {
+  color: var(--ink);
+  font-size: var(--text-meta);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  color: var(--heading);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.navLink[aria-current="page"] {
+  color: var(--heading);
+  font-weight: 600;
 }
 
 .logoLarge {
@@ -76,9 +108,7 @@
 }
 
 .searchDesktop {
-  flex: 1;
-  max-width: 480px;
-  margin: 0 auto;
+  flex: 0 1 480px;
   display: none;
 }
 
@@ -88,9 +118,11 @@
 
 .actions {
   display: flex;
+  flex: 1 1 0%;
+  min-width: max-content;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--space-2);
-  margin-left: auto;
 }
 
 .iconBtn {
@@ -147,5 +179,11 @@
 
   .searchMobile {
     display: none;
+  }
+}
+
+@media (min-width: 1120px) {
+  .nav {
+    display: flex;
   }
 }
