@@ -9,7 +9,7 @@ React + TypeScript on the front, Express + SQLite on the back, and it runs compl
 
 ## Features
 
-- Book catalog of 48 seeded titles across 6 genres.
+- Book catalog of 60 seeded titles across 6 genres.
 - Debounced search across title, author, and ISBN.
 - Filters: genre, price range, minimum rating, in-stock only, with removable active-filter chips.
 - Sorting: relevance, price (both directions), rating.
@@ -91,7 +91,7 @@ Every form, filter, and quantity control in the app validates its input and show
 
 ## Design decisions and assumptions
 
-- **Fully offline.** Fraunces and Inter are self-hosted woff2 files and all 48 cover images are committed to the repo, so nothing is fetched from the network at runtime.
+- **Fully offline.** Fraunces and Inter are self-hosted woff2 files and all 60 cover images are committed to the repo, so nothing is fetched from the network at runtime.
 - **`node:sqlite` over a driver package.** Zero dependencies, zero node-gyp failures on the reviewer's machine. This is why Node 22+ is required.
 - **All design values are tokens.** `client/src/theme.css` is the single source of every color, radius, shadow, font size, and spacing value. Component CSS only references `var(--*)`. Dark mode is a second token set on `[data-theme="dark"]`.
 - **Filter state lives in the URL.** Searches and filters are shareable and survive refresh and the back button.

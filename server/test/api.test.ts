@@ -24,7 +24,7 @@ describe("GET /api/books", () => {
   it("returns the seeded catalog", async () => {
     const res = await request(app).get("/api/books");
     expect(res.status).toBe(200);
-    expect(res.body).toHaveLength(48);
+    expect(res.body).toHaveLength(60);
   });
 
   it("searches title and author case-insensitively", async () => {
