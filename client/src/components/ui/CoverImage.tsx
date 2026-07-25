@@ -20,7 +20,7 @@ export function CoverImage({
   style,
 }: CoverImageProps) {
   return (
-    <picture>
+    <picture style={{ display: "block" }}>
       <source srcSet={coverUrlWebp(isbn)} type="image/webp" />
       <img
         className={className}
