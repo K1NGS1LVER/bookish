@@ -200,3 +200,60 @@ export function useScrollLock(active: boolean): void {
     };
   }, [active]);
 }
+
+/** Set document.title and standard meta tags on mount, restore on unmount. */
+export function useHead(opts: {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+}) {
+  useEffect(() => {
+    const prev = document.title;
+    const meta = (name: string, content: string) => {
+      let el = document.querySelector<HTMLMetaElement>(
+        `meta[property="${name}"], meta[name="${name}"]`
+      );
+      if (!el) {
+        el = document.createElement("meta");
+        if (name.startsWith("og:") || name.startsWith("twitter:")) {
+          el.setAttribute("property", name);
+        } else {
+          el.setAttribute("name", name);
+        }
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+      return el;
+    };
+
+    const prevMetas: { el: HTMLMetaElement; attr: string; val: string }[] = [];
+    const setMeta = (name: string, content: string) => {
+      const el = document.querySelector<HTMLMetaElement>(
+        `meta[property="${name}"], meta[name="${name}"]`
+      );
+      const attr = el?.hasAttribute("property") ? "property" : "name";
+      const prevEl = el
+        ? { el, attr, val: el.getAttribute(attr) ?? "" }
+        : null;
+      meta(name, content);
+      if (prevEl) prevMetas.push(prevEl);
+    };
+
+    if (opts.title) document.title = opts.title;
+    if (opts.description) meta("description", opts.description);
+    if (opts.title) meta("og:title", opts.title);
+    if (opts.description) meta("og:description", opts.description);
+    if (opts.image) meta("og:image", opts.image);
+    if (opts.url) meta("og:url", opts.url);
+    if (opts.type) meta("og:type", opts.type);
+
+    return () => {
+      document.title = prev;
+      for (const m of prevMetas) {
+        m.el.setAttribute(m.attr, m.val);
+      }
+    };
+  }, [opts.title, opts.description, opts.image, opts.url, opts.type]);
+}
