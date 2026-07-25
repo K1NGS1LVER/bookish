@@ -1,0 +1,66 @@
+.page {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--container-pad) var(--section-y);
+  display: grid;
+  gap: var(--space-7);
+}
+
+.intro {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 60ch;
+}
+
+.title {
+  font-size: var(--text-hero);
+}
+
+.lede {
+  font-size: var(--text-h3);
+  color: var(--ink-soft);
+}
+
+.values {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.value {
+  background: var(--bg-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.valueIcon {
+  color: var(--accent-text);
+}
+
+.valueTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--heading);
+  font-size: var(--text-h3);
+}
+
+.valueText {
+  color: var(--ink-soft);
+  font-size: var(--text-meta);
+}
+
+.cta {
+  background: var(--bg-butter);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}
+
+.ctaTitle {
+  font-size: var(--text-h2);
+}

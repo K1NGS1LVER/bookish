@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { validateField } from "shared";
 import styles from "./Footer.module.css";
 
@@ -40,8 +41,8 @@ export function Footer() {
           <ul className={styles.links}>
             <li><a href="#catalog">Browse</a></li>
             <li><a href="#catalog">Genres</a></li>
-            <li><span className={styles.placeholder}>About</span></li>
-            <li><span className={styles.placeholder}>Contact</span></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
           </ul>
         </nav>
 

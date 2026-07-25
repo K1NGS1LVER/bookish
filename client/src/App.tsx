@@ -17,6 +17,12 @@ const BookPage = lazy(() =>
 const CheckoutPage = lazy(() =>
   import("./pages/CheckoutPage").then((m) => ({ default: m.CheckoutPage }))
 );
+const AboutPage = lazy(() =>
+  import("./pages/AboutPage").then((m) => ({ default: m.AboutPage }))
+);
+const ContactPage = lazy(() =>
+  import("./pages/ContactPage").then((m) => ({ default: m.ContactPage }))
+);
 const NotFoundPage = lazy(() =>
   import("./pages/NotFoundPage").then((m) => ({ default: m.NotFoundPage }))
 );
@@ -65,6 +71,22 @@ export function App() {
                   <CheckoutPage />
                 </Suspense>
               </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <Suspense>
+                <AboutPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <Suspense>
+                <ContactPage />
+              </Suspense>
             }
           />
           <Route
