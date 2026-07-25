@@ -7,6 +7,7 @@ import { coverUrl, coverUrlWebp } from "../api";
 import { FilterChips } from "../components/catalog/FilterChips";
 import { FilterPanel } from "../components/catalog/FilterPanel";
 import { BookGrid } from "../components/catalog/BookGrid";
+import { Pagination } from "../components/catalog/Pagination";
 import { SortSelect } from "../components/catalog/SortSelect";
 import { Button } from "../components/ui/Button";
 import { useFetch, useFocusTrap, useHead, usePrefersReducedMotion, useScrollLock } from "../hooks";
@@ -20,8 +21,17 @@ const HERO_COVERS = [
   { isbn: "9780141439518", title: "Pride and Prejudice" },
 ];
 
-function useBookQuery(): [BookQuery, (patch: Partial<BookQuery>) => void, () => void] {
+const PAGE_SIZE = 12;
+
+function useBookQuery(): [
+  BookQuery,
+  (patch: Partial<BookQuery>) => void,
+  () => void,
+  number,
+  (page: number) => void,
+] {
   const [params, setParams] = useSearchParams();
+  const page = Math.max(1, Number(params.get("page")) || 1);
 
   const query = useMemo<BookQuery>(
     () => ({
@@ -51,6 +61,7 @@ function useBookQuery(): [BookQuery, (patch: Partial<BookQuery>) => void, () => 
           setOrDelete("minRating", merged.minRating ?? "");
           setOrDelete("inStock", merged.inStock ? "1" : "");
           setOrDelete("sort", merged.sort === "relevance" ? "" : merged.sort ?? "");
+          next.delete("page");
           return next;
         },
         { replace: true }
@@ -63,7 +74,7 @@ function useBookQuery(): [BookQuery, (patch: Partial<BookQuery>) => void, () => 
     setParams(
       (prev) => {
         const next = new URLSearchParams(prev);
-        for (const key of ["genres", "minPrice", "maxPrice", "minRating", "inStock"]) {
+        for (const key of ["genres", "minPrice", "maxPrice", "minRating", "inStock", "page"]) {
           next.delete(key);
         }
         return next;
@@ -72,11 +83,26 @@ function useBookQuery(): [BookQuery, (patch: Partial<BookQuery>) => void, () => 
     );
   }, [setParams]);
 
-  return [query, patch, clear];
+  const setPage = useCallback(
+    (p: number) => {
+      setParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (p <= 1) next.delete("page");
+          else next.set("page", String(p));
+          return next;
+        },
+        { replace: true }
+      );
+    },
+    [setParams]
+  );
+
+  return [query, patch, clear, page, setPage];
 }
 
 export function HomePage() {
-  const [query, patch, clear] = useBookQuery();
+  const [query, patch, clear, page, setPage] = useBookQuery();
   const { data: books, loading, isFetching, error, retry } = useFetch(
     () => fetchBooks(query),
     JSON.stringify(query)
@@ -115,6 +141,17 @@ export function HomePage() {
   }, [location.hash, scrollToCatalog]);
 
   const resultCount = books?.length ?? 0;
+  const totalPages = Math.max(1, Math.ceil(resultCount / PAGE_SIZE));
+  const pageClamped = Math.min(page, totalPages);
+  const pagedBooks = (books ?? []).slice(
+    (pageClamped - 1) * PAGE_SIZE,
+    pageClamped * PAGE_SIZE
+  );
+
+  function goToPage(p: number) {
+    setPage(p);
+    scrollToCatalog();
+  }
 
   return (
     <>
@@ -215,7 +252,10 @@ export function HomePage() {
               </Button>
             </div>
           ) : (
-            <BookGrid books={books ?? []} loading={loading} isFetching={isFetching} />
+            <>
+              <BookGrid books={pagedBooks} loading={loading} isFetching={isFetching} />
+              <Pagination page={pageClamped} totalPages={totalPages} onChange={goToPage} />
+            </>
           )}
         </div>
       </section>
