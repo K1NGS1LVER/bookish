@@ -112,6 +112,24 @@ export function HomePage() {
   return (
     <>
       <section className={styles.hero} id="top">
+        <svg className="visually-hidden" aria-hidden="true">
+          <filter id="paper-grain">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.65"
+              numOctaves="4"
+              stitchTiles="stitch"
+              result="noise"
+            />
+            <feColorMatrix
+              in="noise"
+              type="saturate"
+              values="0"
+              result="mono"
+            />
+            <feBlend in="SourceGraphic" in2="mono" mode="multiply" />
+          </filter>
+        </svg>
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
             <h1 className={styles.heroTitle}>Find your next favorite book.</h1>
