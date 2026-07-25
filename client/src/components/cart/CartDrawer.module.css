@@ -37,7 +37,7 @@
 .close {
   border: none;
   background: transparent;
-  font-size: 1.75rem;
+  font-size: var(--text-close);
   line-height: 1;
   color: var(--ink-soft);
   cursor: pointer;
@@ -131,7 +131,10 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
-  padding: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
 }
 
 .remove:hover {

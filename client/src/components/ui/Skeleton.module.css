@@ -15,7 +15,7 @@
     var(--skeleton-base) 60%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.4s linear infinite;
+  animation: shimmer var(--duration-shimmer) linear infinite;
   border-radius: var(--radius-img);
 }
 

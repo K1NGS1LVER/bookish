@@ -179,7 +179,7 @@
 .sheetClose {
   border: none;
   background: transparent;
-  font-size: 1.75rem;
+  font-size: var(--text-close);
   line-height: 1;
   color: var(--ink-soft);
   cursor: pointer;

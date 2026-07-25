@@ -33,12 +33,29 @@ export function App() {
   const shell = (
     <ErrorBoundary>
       <ScrollToTop />
+      <a href="#main-content" className="visually-hidden">
+        Skip to content
+      </a>
       <Header />
-      <main>
+      <main id="main-content">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/book/:id" element={<BookPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route
+            path="/book/:id"
+            element={
+              <ErrorBoundary>
+                <BookPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ErrorBoundary>
+                <CheckoutPage />
+              </ErrorBoundary>
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

@@ -25,7 +25,19 @@ export function BookPage() {
   );
 
   if (loading) {
-    return <div className={styles.loading} aria-busy="true" />;
+    return (
+      <div className={styles.page} aria-busy="true">
+        <div className={styles.loadingSkeleton}>
+          <div className={styles.loadingCover} />
+          <div className={styles.loadingInfo}>
+            <div className={styles.loadingLine} style={{ width: "40%" }} />
+            <div className={styles.loadingLine} style={{ width: "80%" }} />
+            <div className={styles.loadingLine} style={{ width: "50%" }} />
+            <div className={styles.loadingLine} style={{ width: "30%" }} />
+          </div>
+        </div>
+      </div>
+    );
   }
   if (error || !book) {
     return (

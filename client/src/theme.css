@@ -71,6 +71,8 @@
   --text-body: 1rem;
   --text-meta: 0.8125rem;
   --text-chip: 0.75rem;
+  --text-wordmark: 1.5rem;
+  --text-close: 1.75rem;
   --tracking-display: -0.02em;
 
   /* Spacing (8px base) */
@@ -94,6 +96,7 @@
   --duration-card-enter: 280ms;
   --stagger-step: 40ms;
   --duration-grid-layout: 350ms;
+  --duration-shimmer: 1.4s;
   --duration-tap: 100ms;
   --scale-tap: 0.96;
 

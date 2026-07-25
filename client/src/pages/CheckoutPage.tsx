@@ -151,7 +151,7 @@ export function CheckoutPage() {
               <li key={book.id} className={styles.line}>
                 <img
                   src={coverUrl(book.isbn)}
-                  alt=""
+                  alt={`Cover of ${book.title}`}
                   loading="lazy"
                   width="40"
                   height="60"

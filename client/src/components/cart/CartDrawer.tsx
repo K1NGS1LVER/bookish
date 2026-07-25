@@ -83,7 +83,7 @@ export function CartDrawer() {
                         <img
                           className={styles.thumb}
                           src={coverUrl(book.isbn)}
-                          alt=""
+                          alt={`Cover of ${book.title}`}
                           loading="lazy"
                           width="56"
                           height="84"

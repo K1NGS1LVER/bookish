@@ -92,6 +92,7 @@
   color: var(--accent-contrast);
   font-weight: 600;
   padding: var(--space-2) var(--space-4);
+  min-height: 2.75rem;
   cursor: pointer;
   transition: background-color var(--ease-fast);
 }

@@ -1,41 +1,44 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, forwardRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Moon, Search, ShoppingBag, Sun } from "lucide-react";
 import { useDebounced, useTheme } from "../../hooks";
 import { cartCount, useCart } from "../../store/cartStore";
 import styles from "./Header.module.css";
 
-function SearchInput({ id }: { id: string }) {
-  const [params] = useSearchParams();
-  const navigate = useNavigate();
-  const [value, setValue] = useState(params.get("search") ?? "");
-  const debounced = useDebounced(value, 300);
+const SearchInput = forwardRef<HTMLInputElement, { id: string }>(
+  function SearchInput({ id }, ref) {
+    const [params] = useSearchParams();
+    const navigate = useNavigate();
+    const [value, setValue] = useState(params.get("search") ?? "");
+    const debounced = useDebounced(value, 300);
 
-  useEffect(() => {
-    const current = new URLSearchParams(window.location.search);
-    if ((current.get("search") ?? "") === debounced.trim()) return;
-    if (debounced.trim()) current.set("search", debounced.trim());
-    else current.delete("search");
-    navigate(
-      { pathname: "/", search: current.toString(), hash: "catalog" },
-      { replace: true }
+    useEffect(() => {
+      const current = new URLSearchParams(window.location.search);
+      if ((current.get("search") ?? "") === debounced.trim()) return;
+      if (debounced.trim()) current.set("search", debounced.trim());
+      else current.delete("search");
+      navigate(
+        { pathname: "/", search: current.toString(), hash: "catalog" },
+        { replace: true }
+      );
+    }, [debounced, navigate]);
+
+    return (
+      <div className={styles.search}>
+        <Search aria-hidden="true" size={16} className={styles.searchIcon} />
+        <input
+          ref={ref}
+          id={id}
+          type="search"
+          placeholder="Search by title, author, or ISBN…"
+          aria-label="Search books"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </div>
     );
-  }, [debounced, navigate]);
-
-  return (
-    <div className={styles.search}>
-      <Search aria-hidden="true" size={16} className={styles.searchIcon} />
-      <input
-        id={id}
-        type="search"
-        placeholder="Search by title, author, or ISBN…"
-        aria-label="Search books"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-    </div>
-  );
-}
+  }
+);
 
 export function Header() {
   const [theme, toggleTheme] = useTheme();
@@ -44,6 +47,7 @@ export function Header() {
   const openDrawer = useCart((s) => s.openDrawer);
   const [scrolled, setScrolled] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
+  const mobileSearchRef = useRef<HTMLInputElement>(null);
   const count = cartCount(items);
 
   useEffect(() => {
@@ -52,6 +56,10 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (mobileSearch) mobileSearchRef.current?.focus();
+  }, [mobileSearch]);
 
   return (
     <header className={styles.header} data-scrolled={scrolled || undefined}>
@@ -104,7 +112,7 @@ export function Header() {
 
       {mobileSearch && (
         <div className={styles.searchMobile}>
-          <SearchInput id="site-search-mobile" />
+          <SearchInput id="site-search-mobile" ref={mobileSearchRef} />
         </div>
       )}
     </header>

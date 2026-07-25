@@ -23,7 +23,7 @@
 .wordmark {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: var(--text-wordmark);
   color: var(--heading);
   text-decoration: none;
   letter-spacing: var(--tracking-display);
@@ -88,8 +88,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   background: var(--bg-card);
@@ -115,7 +115,7 @@
   font-weight: 600;
   display: grid;
   place-items: center;
-  animation: badge-pulse 350ms ease;
+  animation: badge-pulse var(--duration-grid-layout) ease;
 }
 
 @media (min-width: 768px) {

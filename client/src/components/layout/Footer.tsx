@@ -40,8 +40,8 @@ export function Footer() {
           <ul className={styles.links}>
             <li><a href="#catalog">Browse</a></li>
             <li><a href="#catalog">Genres</a></li>
-            <li><a href="#top">About</a></li>
-            <li><a href="#top">Contact</a></li>
+            <li><span className={styles.placeholder}>About</span></li>
+            <li><span className={styles.placeholder}>Contact</span></li>
           </ul>
         </nav>
 

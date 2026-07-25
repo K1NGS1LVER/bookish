@@ -15,7 +15,7 @@
 .wordmark {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: var(--text-wordmark);
 }
 
 .period {
@@ -47,6 +47,13 @@
 .links a:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.placeholder {
+  color: var(--on-forest);
+  font-size: var(--text-meta);
+  opacity: 0.5;
+  cursor: default;
 }
 
 .newsletter label {

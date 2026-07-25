@@ -8,6 +8,51 @@
   min-height: 50vh;
 }
 
+.loadingSkeleton {
+  display: grid;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .loadingSkeleton {
+    grid-template-columns: minmax(0, 380px) 1fr;
+    align-items: start;
+  }
+}
+
+.loadingCover {
+  aspect-ratio: 2 / 3;
+  background: var(--skeleton-base);
+  border-radius: var(--radius-img);
+  animation: shimmer var(--duration-shimmer) linear infinite;
+  background: linear-gradient(
+    100deg,
+    var(--skeleton-base) 40%,
+    var(--skeleton-sheen) 50%,
+    var(--skeleton-base) 60%
+  );
+  background-size: 200% 100%;
+}
+
+.loadingInfo {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.loadingLine {
+  height: 1rem;
+  border-radius: var(--radius-img);
+  background: linear-gradient(
+    100deg,
+    var(--skeleton-base) 40%,
+    var(--skeleton-sheen) 50%,
+    var(--skeleton-base) 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer var(--duration-shimmer) linear infinite;
+}
+
 .errorState {
   min-height: 50vh;
   display: grid;
