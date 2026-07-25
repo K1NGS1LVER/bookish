@@ -64,8 +64,21 @@ export function Header() {
   return (
     <header className={styles.header} data-scrolled={scrolled || undefined}>
       <div className={styles.inner}>
-        <Link to="/" className={styles.wordmark}>
-          Bookish<span className={styles.period}>.</span>
+        <Link to="/" className={styles.wordmark} aria-label="Bookish home">
+          <img
+            className={styles.logoLarge}
+            src="/logo.svg"
+            alt=""
+            width="160"
+            height="40"
+          />
+          <img
+            className={styles.logoSmall}
+            src="/logo-small.svg"
+            alt=""
+            width="32"
+            height="32"
+          />
         </Link>
 
         <div className={styles.searchDesktop}>

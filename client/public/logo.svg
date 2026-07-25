@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none">
+  <!-- open book icon -->
+  <path d="M20 6c-5-4-11-4-11 2v20c0 6 6 6 11 2V6z" fill="#3a4e3f" opacity="0.85"/>
+  <path d="M20 6c5-4 11-4 11 2v20c0 6-6 6-11 2V6z" fill="#3a4e3f"/>
+  <path d="M20 6v24" stroke="#ffffe3" stroke-width="1" opacity="0.6"/>
+  <circle cx="29.5" cy="4.5" r="3" fill="#ff8748"/>
+  <!-- wordmark -->
+  <text x="40" y="27" font-family="Georgia, serif" font-weight="700" font-size="22" fill="#3a4e3f" letter-spacing="-0.5">Bookish</text>
+  <text x="131" y="27" font-family="Georgia, serif" font-weight="700" font-size="22" fill="#a34500" letter-spacing="-0.5">.</text>
+</svg>
